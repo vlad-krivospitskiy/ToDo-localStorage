@@ -95,6 +95,15 @@
         background-color: #91c8e4;
         margin-right: 5px;
       }
+      .todos li[data-status="План"] {
+        background-color: #91c8e4; /* Blue */
+      }
+      .todos li[data-status="В процесi"] {
+        background-color: #f00; /* Red */
+      }
+      .todos li[data-status="Виконано"] {
+        background-color: #86ff00; /* Green */
+      }
 
       footer {
         background-color: #4682a9;
@@ -150,6 +159,108 @@
       .todo-app button:hover {
         background-color: #4682a9;
       }
+
+      .glowing {
+        position: relative;
+        min-width: 800px;
+        height: 350px;
+        margin: -150px;
+        transform-origin: right;
+        animation: colorChange 7s linear infinite;
+      }
+
+      .glowing:nth-child(even) {
+        transform-origin: left;
+      }
+
+      @keyframes colorChange {
+        0% {
+          filter: hue-rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      .glowing span {
+        position: absolute;
+        top: calc(80px * var(--i));
+        left: calc(80px * var(--i));
+        bottom: calc(80px * var(--i));
+        right: calc(80px * var(--i));
+      }
+
+      .glowing span::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -8px;
+        width: 15px;
+        height: 15px;
+        background: #f00;
+        border-radius: 50%;
+      }
+
+      .glowing span:nth-child(3n + 1)::before {
+        background: rgba(134, 255, 0, 1);
+        box-shadow: 0 0 20px rgba(134, 255, 0, 1), 0 0 40px rgba(134, 255, 0, 1),
+          0 0 60px rgba(134, 255, 0, 1), 0 0 80px rgba(134, 255, 0, 1),
+          0 0 0 8px rgba(134, 255, 0, 0.1);
+      }
+
+      .glowing span:nth-child(3n + 2)::before {
+        background: rgba(255, 214, 0, 1);
+        box-shadow: 0 0 20px rgba(255, 214, 0, 1), 0 0 40px rgba(255, 214, 0, 1),
+          0 0 60px rgba(255, 214, 0, 1), 0 0 80px rgba(255, 214, 0, 1),
+          0 0 0 8px rgba(255, 214, 0, 0.1);
+      }
+
+      .glowing span:nth-child(3n + 3)::before {
+        background: rgba(0, 226, 255, 1);
+        box-shadow: 0 0 20px rgba(0, 226, 255, 1), 0 0 40px rgba(0, 226, 255, 1),
+          0 0 60px rgba(0, 226, 255, 1), 0 0 80px rgba(0, 226, 255, 1),
+          0 0 0 8px rgba(0, 226, 255, 0.1);
+      }
+
+      .glowing span:nth-child(3n + 1) {
+        animation: animate 10s alternate infinite;
+      }
+
+      .glowing span:nth-child(3n + 2) {
+        animation: animate-reverse 3s alternate infinite;
+      }
+
+      .glowing span:nth-child(3n + 3) {
+        animation: animate 8s alternate infinite;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: rotate(180deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes animate-reverse {
+        0% {
+          transform: rotate(360deg);
+        }
+
+        50% {
+          transform: rotate(180deg);
+        }
+
+        100% {
+          transform: rotate(0deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -167,27 +278,58 @@
 
     <main>
       <div class="todo-app">
-        <input type="text" id="todoInput" placeholder="Введите задачу" />
+        <input type="text" id="todoInput" placeholder="Введiть завдання" />
         <select id="statusSelect">
           <option value="plan">План</option>
-          <option value="inProgress">В процессе</option>
-          <option value="done">Выполнено</option>
+          <option value="inProgress">В процесi</option>
+          <option value="done">Виконано</option>
         </select>
-        <button id="addButton">Добавить задачу</button>
+        <button id="addButton">Додати завдання</button>
         <div class="todo-columns">
           <div class="todo-column" id="todoPlan">
             <h3>План</h3>
             <ul class="todos"></ul>
           </div>
           <div class="todo-column" id="todoInProgress">
-            <h3>В процессе</h3>
+            <h3>В процесi</h3>
             <ul class="todos"></ul>
           </div>
           <div class="todo-column" id="todoDone">
-            <h3>Выполнено</h3>
+            <h3>Виконано</h3>
             <ul class="todos"></ul>
           </div>
         </div>
+      </div>
+      <div class="glowing">
+        <span style="--i: 1"></span>
+
+        <span style="--i: 2"></span>
+
+        <span style="--i: 3"></span>
+      </div>
+
+      <div class="glowing">
+        <span style="--i: 1"></span>
+
+        <span style="--i: 2"></span>
+
+        <span style="--i: 3"></span>
+      </div>
+
+      <div class="glowing">
+        <span style="--i: 1"></span>
+
+        <span style="--i: 2"></span>
+
+        <span style="--i: 3"></span>
+      </div>
+
+      <div class="glowing">
+        <span style="--i: 1"></span>
+
+        <span style="--i: 2"></span>
+
+        <span style="--i: 3"></span>
       </div>
     </main>
 
@@ -252,8 +394,8 @@
           const status = this.statusSelect.value;
           const statusMap = {
             plan: "План",
-            inProgress: "В процессе",
-            done: "Выполнено",
+            inProgress: "В процесi",
+            done: "Виконано",
           };
           const todoItem = { text: todoText, status: statusMap[status] };
           this.todoInput.value = "";
@@ -274,9 +416,9 @@
 
             if (todoItem.status === "План") {
               this.todoPlanElem.appendChild(listItem);
-            } else if (todoItem.status === "В процессе") {
+            } else if (todoItem.status === "В процесi") {
               this.todoInProgressElem.appendChild(listItem);
-            } else if (todoItem.status === "Выполнено") {
+            } else if (todoItem.status === "Виконано") {
               this.todoDoneElem.appendChild(listItem);
             }
           });
